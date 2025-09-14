@@ -1,0 +1,46 @@
+project_name: "image_pipeline_v2_prod"
+random_seed: 42
+paths:
+  raw_images_dir: "data/raw"
+  processed_images_dir: "data/processed"
+  csv_labels_path: "data/retinal_labels.csv"  # filename,class
+  artifacts_dir: "artifacts"
+  outputs_dir: "outputs"
+  plots_dir: "outputs/plots"
+  predictions_dir: "outputs/predictions"
+  model_path: "artifacts/model.keras"
+  model_pkl: "artifacts/model_wrapper.pkl"
+  pipeline_pkl: "artifacts/preprocessor.pkl"
+
+gpu:
+  enable_memory_growth: true
+
+data:
+  image_size: [512, 512]
+  channels: 3
+  normalize: true
+  contrast_clip_limit: 2.0
+  histogram_equalize: false
+  valid_split: 0.2
+  shuffle_buffer: 1000
+  batch_size: 8
+
+augment:
+  enabled: true
+  random_flip: "horizontal"
+  random_rotation: 0.03
+  random_zoom: 0.05
+  random_translation: [0.05, 0.05]
+
+training:
+  epochs: 15
+  patience: 2
+  base_learning_rate: 0.0005
+  class_mode: "sparse"
+
+streamlit:
+  page_title: "Image Severity Classifier"
+  max_zip_extract_files: 3500
+
+severity:
+  mapping: {}
